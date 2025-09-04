@@ -1,0 +1,24 @@
+<div class="rooms-page">
+  <h2>Meeting Rooms</h2>
+
+  <div *ngIf="loading">Loading rooms...</div>
+  <div *ngIf="error" class="error">{{ error }}</div>
+
+  <div *ngIf="rooms.length === 0 && !loading">No rooms found.</div>
+
+  <div class="room-list">
+    <div class="room-card" *ngFor="let r of rooms">
+      <h3>{{ r.roomName }}</h3>
+      <p>Location: {{ r.roomLocation }}</p>
+      <p>Capacity: {{ r.capacity }}</p>
+
+      <button mat-stroked-button color="primary" [routerLink]="['/reservations/create']" [queryParams]="{ roomId: r.id }">
+        Reserve
+      </button>
+
+      <button *ngIf="auth.hasRole('ROLE_ADMIN')" mat-stroked-button color="warn" (click)="deleteRoom(r.id)">
+        Delete
+      </button>
+    </div>
+  </div>
+</div>

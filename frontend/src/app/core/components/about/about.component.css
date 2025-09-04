@@ -1,0 +1,19 @@
+.about-container {
+  padding: 40px;
+  max-width: 100%;
+  min-height: 100vh;
+  background: linear-gradient(135deg, #f3e9f7, #b59fc7);
+  text-align: center;
+}
+
+.about-container h1 {
+  font-size: 2.5rem;
+  margin-bottom: 16px;
+  color: #6a1b9a;
+}
+
+.about-container p {
+  font-size: 1.2rem;
+  margin-bottom: 12px;
+  color: #666;
+}

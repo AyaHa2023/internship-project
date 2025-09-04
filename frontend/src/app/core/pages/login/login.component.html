@@ -1,0 +1,21 @@
+<div class="login-container">
+  <h2>Login</h2>
+
+  <form [formGroup]="form" (ngSubmit)="submit()">
+    <mat-form-field appearance="outline" style="width:100%">
+      <mat-label>Username</mat-label>
+      <input matInput formControlName="username" />
+    </mat-form-field>
+
+    <mat-form-field appearance="outline" style="width:100%">
+      <mat-label>Password</mat-label>
+      <input matInput type="password" formControlName="password" />
+    </mat-form-field>
+
+    <div *ngIf="error" class="error">{{ error }}</div>
+
+    <button mat-raised-button color="primary" type="submit" [disabled]="loading">
+      {{ loading ? 'Signing in...' : 'Sign in' }}
+    </button>
+  </form>
+</div>

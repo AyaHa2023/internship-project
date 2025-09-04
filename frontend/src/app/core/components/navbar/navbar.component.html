@@ -1,0 +1,37 @@
+<mat-toolbar color="primary" class="navbar">
+  <!-- Left: Logo -->
+  <div class="navbar-logo" (click)="router.navigate(['/'])" style="cursor: pointer;">
+    <img src="assets/logo.png" alt="Logo" width="40" height="40" />
+  </div>
+
+  <!-- Center: Navigation links -->
+  <span class="spacer"></span>
+  <div class="navbar-links">
+    <a mat-button routerLink="/home">
+      <mat-icon class="nav-icon">home</mat-icon>
+      Home
+    </a>
+    <a mat-button routerLink="/rooms">
+      <mat-icon class="nav-icon">meeting_room</mat-icon>
+      Rooms
+    </a>
+    <a mat-button routerLink="/reservations">
+      <mat-icon class="nav-icon">event</mat-icon>
+      Reservations
+    </a>
+    <a mat-button routerLink="/about">
+      <mat-icon class="nav-icon">info</mat-icon>
+      About
+    </a>
+  </div>
+  <span class="spacer"></span>
+
+  <!-- Right: Login/Profile -->
+  <div class="navbar-actions">
+    <button *ngIf="!isLoggedIn" mat-button (click)="onLoginClick()" class="login-btn">Login</button>
+    <ng-container *ngIf="isLoggedIn">
+      <button mat-button (click)="onProfileClick()">Profile</button>
+      <button mat-button (click)="onLogoutClick()">Logout</button>
+    </ng-container>
+  </div>
+</mat-toolbar>

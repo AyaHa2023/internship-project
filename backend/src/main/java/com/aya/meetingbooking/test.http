@@ -1,0 +1,116 @@
+### LOGIN - get JWT
+POST http://localhost:8080/api/auth/login
+Content-Type: application/json
+
+{
+  "username": "aya",
+  "password": "mypassword"
+}
+
+> {% client.global.set("jwt_token", response.body.token) %}
+
+### HEALTH CHECK
+GET http://localhost:8080/api/v1/health
+Accept: application/json
+
+### HOME ENDPOINT
+GET http://localhost:8080/
+Accept: text/plain
+
+### GET ALL USERS (ADMIN)
+GET http://localhost:8080/api/v1/users
+Authorization: Bearer {{jwt_token}}
+
+### GET USER BY ID (ADMIN)
+GET http://localhost:8080/api/v1/users/1
+Authorization: Bearer {{jwt_token}}
+
+### GET CURRENT USER
+GET http://localhost:8080/api/v1/users/me
+Authorization: Bearer {{jwt_token}}
+
+### GET ALL ROOMS
+GET http://localhost:8080/api/v1/rooms
+Authorization: Bearer {{jwt_token}}
+
+### GET ROOM BY ID
+GET http://localhost:8080/api/v1/rooms/1
+Authorization: Bearer {{jwt_token}}
+
+### CREATE ROOM (ADMIN)
+POST http://localhost:8080/api/v1/rooms
+Authorization: Bearer {{jwt_token}}
+Content-Type: application/json
+
+{
+  "roomName": "Ocean View Room",
+  "capacity": 10,
+  "roomLocation": "Second Floor"
+}
+
+### UPDATE ROOM (ADMIN)
+PUT http://localhost:8080/api/v1/rooms/1
+Authorization: Bearer {{jwt_token}}
+Content-Type: application/json
+
+{
+  "roomName": "Ocean View Room Updated",
+  "capacity": 12,
+  "roomLocation": "Second Floor"
+}
+
+### DELETE ROOM (ADMIN)
+DELETE http://localhost:8080/api/v1/rooms/1
+Authorization: Bearer {{jwt_token}}
+
+### SEARCH ROOMS
+GET http://localhost:8080/api/v1/rooms/search?minCapacity=5&location=Second
+Authorization: Bearer {{jwt_token}}
+
+### PAGED ROOMS
+GET http://localhost:8080/api/v1/rooms/paged?page=0&size=10&sortBy=id&sortDir=asc
+Authorization: Bearer {{jwt_token}}
+
+### CREATE RESERVATION
+POST http://localhost:8080/api/v1/reservations
+Authorization: Bearer {{jwt_token}}
+Content-Type: application/json
+
+{
+  "userId": 1,
+  "roomId": 1,
+  "startTime": "2025-08-24T09:00:00",
+  "endTime": "2025-08-24T10:00:00"
+}
+
+### GET RESERVATIONS FOR USER
+GET http://localhost:8080/api/v1/reservations/user/1
+Authorization: Bearer {{jwt_token}}
+
+### GET RESERVATIONS FOR ROOM
+GET http://localhost:8080/api/v1/reservations/room/1
+Authorization: Bearer {{jwt_token}}
+
+### CHECK ROOM AVAILABILITY
+GET http://localhost:8080/api/v1/reservations/availability?roomId=1&date=2025-08-24&startTime=09:00:00&endTime=10:00:00
+Authorization: Bearer {{jwt_token}}
+
+### GET ALL RESERVATIONS (ADMIN)
+GET http://localhost:8080/api/v1/reservations
+Authorization: Bearer {{jwt_token}}
+
+### UPDATE RESERVATION
+PUT http://localhost:8080/api/v1/reservations/1
+Authorization: Bearer {{jwt_token}}
+Content-Type: application/json
+
+{
+  "userId": 1,
+  "roomId": 1,
+  "startTime": "2025-08-24T11:00:00",
+  "endTime": "2025-08-24T12:00:00"
+}
+
+### CANCEL RESERVATION
+DELETE http://localhost:8080/api/v1/reservations/1
+Authorization: Bearer {{jwt_token}}

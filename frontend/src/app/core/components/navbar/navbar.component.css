@@ -1,0 +1,81 @@
+.navbar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0 16px;
+  height: 64px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  background-color: rgb(111, 66, 121);
+}
+
+/* Spacer used to push center links to center */
+.spacer {
+  flex: 1;
+}
+
+.navbar-logo img {
+  vertical-align: middle;
+  border-radius: 10px;
+  width: 200px;
+  height: auto;
+}
+
+.navbar-links {
+  display: flex;
+  gap: 24px; /* space between links */
+  justify-content: center;
+  align-items: center;
+}
+
+.navbar-links a {
+  font-size: 1.1rem; /* bigger text */
+  display: flex;
+  align-items: center;
+  gap: 6px; /* space between icon and text */
+  color: white;
+  text-transform: uppercase;
+}
+
+.nav-icon {
+  font-size: 20px;
+  vertical-align: middle;
+  color: white;
+}
+
+.navbar-actions {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+a[mat-button] {
+  font-weight: 500;
+  color: white;
+  text-transform: uppercase;
+}
+
+button[mat-button] {
+  font-weight: 600;
+  color: white;
+  text-transform: uppercase;
+}
+/* Style specifically the Login button to look like a purple button */
+.navbar-actions button.mat-button {
+  /* existing styles */
+  font-weight: 600;
+  color: white;
+  text-transform: uppercase;
+}
+
+.navbar-actions button.mat-button.login-btn {
+  color: #6a1b9a !important; /* Purple text */
+  background-color: #e6d6f0 !important; /* Light purple-ish background */
+  border-radius: 20px !important;
+  padding: 6px 16px !important;
+  font-weight: 700 !important;
+  transition: background-color 0.3s ease !important;
+}
+
+.navbar-actions button.mat-button.login-btn:hover {
+  background-color: #d1b3e0 !important; /* Darker light purple on hover */
+}
