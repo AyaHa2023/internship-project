@@ -28,20 +28,23 @@ public class AuthController {
     @PostMapping("/login")
     public ResponseEntity<?> login(@RequestBody AuthenticationRequestDto request) {
         try {
-
             authenticationManager.authenticate(
                     new UsernamePasswordAuthenticationToken(request.getUsername(), request.getPassword())
             );
 
-
             UserDetails userDetails = userDetailsService.loadUserByUsername(request.getUsername());
 
+            // ⚡️ Load AppUser entity
+            com.aya.meetingbooking.entity.AppUser appUser =
+                    (com.aya.meetingbooking.entity.AppUser) userDetails;
 
-            String token = jwtUtil.generateToken(userDetails);
+            String token = jwtUtil.generateToken(userDetails, appUser.getId());
 
             return ResponseEntity.ok(new AuthenticationResponseDto(token));
         } catch (AuthenticationException e) {
             return ResponseEntity.status(401).body("Invalid credentials");
         }
     }
+
+
 }

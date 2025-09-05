@@ -7,7 +7,8 @@ import { ReservationRequest, ReservationResponse } from '../models/reservation.m
 
 @Injectable({ providedIn: 'root' })
 export class ReservationService {
-  private base = `${environment.apiBaseUrl}/api/reservations`;
+  // ✅ match backend base URL
+  private base = `${environment.apiBaseUrl}/api/v1/reservations`;
 
   constructor(private http: HttpClient) {}
 
@@ -19,10 +20,14 @@ export class ReservationService {
     return this.http.delete<void>(`${this.base}/${id}`);
   }
 
-  // listMine(userId?) -> backend expects ?userId=<id> or no param to list all
-  listMine(userId?: number): Observable<ReservationResponse[]> {
-    const url = userId ? `${this.base}?userId=${userId}` : this.base;
-    return this.http.get<ReservationResponse[]>(url);
+  // ✅ fetch only reservations for a specific user
+  listMine(userId: number): Observable<ReservationResponse[]> {
+    return this.http.get<ReservationResponse[]>(`${this.base}/user/${userId}`);
+  }
+
+  // ✅ fetch all reservations (admin only)
+  listAll(): Observable<ReservationResponse[]> {
+    return this.http.get<ReservationResponse[]>(this.base);
   }
 
   getById(id: number): Observable<ReservationResponse> {

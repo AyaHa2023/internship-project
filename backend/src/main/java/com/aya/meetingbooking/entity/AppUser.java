@@ -1,13 +1,17 @@
 package com.aya.meetingbooking.entity;
 
 import jakarta.persistence.*;
+import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
+import org.springframework.security.core.userdetails.UserDetails;
 
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.List;
 
 @Entity
 @Table
-public class AppUser {
+public class AppUser implements UserDetails {
     @Id
     @SequenceGenerator(
             name = "user_seq_gen",
@@ -16,38 +20,25 @@ public class AppUser {
     )
     @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "user_seq_gen")
     private Long id;
-    @Column(name = "username")
+
+    @Column(name = "username", unique = true, nullable = false)
     private String username;
+
     @Column(name = "email")
     private String email;
+
     @Column(name = "role")
     private String role;
-    @Column(name = "password")// ROLE_USER or ROLE_ADMIN
+
+    @Column(name = "password")
     private String password;
 
-    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL,  orphanRemoval = true)
-    private List<Reservation> reservations= new ArrayList<>();
+    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<Reservation> reservations = new ArrayList<>();
 
+    public AppUser() {}
 
-    public AppUser() {
-    }
-
-    public AppUser(Long id,
-                   String username,
-                   String email,
-                   String password,
-                   String role) {
-        this.id = id;
-        this.username = username;
-        this.email = email;
-        this.password = password;
-        this.role = role;
-    }
-
-    public AppUser(String username,
-                   String email,
-                   String password,
-                   String role) {
+    public AppUser(String username, String email, String password, String role) {
         this.username = username;
         this.email = email;
         this.password = password;
@@ -58,58 +49,45 @@ public class AppUser {
         return id;
     }
 
-    public void setId(Long id) {
-        this.id = id;
-    }
+    @Override
+    public String getUsername() { return username; }
 
-    public String getUsername() {
-        return username;
-    }
+    @Override
+    public String getPassword() { return password; }
 
-    public void setUsername(String username) {
-        this.username = username;
-    }
+    public String getEmail() { return email; }
 
-    public String getEmail() {
-        return email;
-    }
+    public String getRole() { return role; }
 
-    public void setEmail(String email) {
-        this.email = email;
-    }
+    public void setId(Long id) { this.id = id; }
 
-    public String getPassword() {
-        return password;
-    }
+    public void setUsername(String username) { this.username = username; }
 
-    public void setPassword(String password) {
-        this.password = password;
-    }
+    public void setPassword(String password) { this.password = password; }
 
-    public String getRole() {
-        return role;
-    }
+    public void setEmail(String email) { this.email = email; }
 
-    public void setRole(String role) {
-        this.role = role;
-    }
+    public void setRole(String role) { this.role = role; }
 
-    public List<Reservation> getReservations() {
-        return reservations;
-    }
+    public List<Reservation> getReservations() { return reservations; }
 
-    public void setReservations(List<Reservation> reservations) {
-        this.reservations = reservations;
+    public void setReservations(List<Reservation> reservations) { this.reservations = reservations; }
+
+    // --- UserDetails implementation ---
+    @Override
+    public Collection<? extends GrantedAuthority> getAuthorities() {
+        return List.of(new SimpleGrantedAuthority(role));
     }
 
     @Override
-    public String toString() {
-        return "User{" +
-                "id=" + id +
-                ", username='" + username + '\'' +
-                ", email='" + email + '\'' +
-                ", role='" + role + '\'' +
-                '}';
-    }
-}
+    public boolean isAccountNonExpired() { return true; }
 
+    @Override
+    public boolean isAccountNonLocked() { return true; }
+
+    @Override
+    public boolean isCredentialsNonExpired() { return true; }
+
+    @Override
+    public boolean isEnabled() { return true; }
+}

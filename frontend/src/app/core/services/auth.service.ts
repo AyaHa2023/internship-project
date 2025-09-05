@@ -21,9 +21,12 @@ export class AuthService {
         this.tokens.saveToken(res.token);
         try {
           const decoded: any = jwtDecode(res.token);
+          console.log('Decoded JWT:', decoded);  // <--- put here so you can see the token contents
+
           const roles: string[] = Array.isArray(decoded?.roles) ? decoded.roles : [];
           const sub = decoded?.sub ?? decoded?.username ?? username;
           const userId = decoded?.userId ?? decoded?.id ?? null;
+
           this.tokens.saveUsername(sub);
           this.tokens.saveRoles(roles);
           if (userId !== null && userId !== undefined) {

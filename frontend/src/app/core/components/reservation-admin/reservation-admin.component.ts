@@ -19,7 +19,7 @@ export class ReservationAdminComponent implements OnInit {
 
   ngOnInit() {
     this.loading = true;
-    this.reservationService.listMine().subscribe({ // admin fetches all
+    this.reservationService.listAll().subscribe({
       next: (data: ReservationResponse[]) => {
         this.reservations = data;
         this.loading = false;
@@ -33,7 +33,7 @@ export class ReservationAdminComponent implements OnInit {
 
   cancel(reservationId: number) {
     this.reservationService.cancel(reservationId).subscribe({
-      next: () => this.ngOnInit(),
+      next: () => this.ngOnInit(), // reload list
       error: (err: any) => alert('Cancel failed: ' + (err?.message || 'unknown'))
     });
   }

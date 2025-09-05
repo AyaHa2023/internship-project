@@ -19,12 +19,14 @@ public class JwtUtil {
     private final Key key = Keys.hmacShaKeyFor(jwtSecret.getBytes());
 
 
-    public String generateToken(UserDetails userDetails) {
+    public String generateToken(UserDetails userDetails, Long userId) {
         Map<String, Object> claims = new HashMap<>();
         List<String> roles = userDetails.getAuthorities().stream()
                 .map(GrantedAuthority::getAuthority)
                 .collect(Collectors.toList());
+
         claims.put("roles", roles);
+        claims.put("userId", userId); // ✅ force userId into token
 
         Date now = new Date();
         Date expiry = new Date(System.currentTimeMillis() + jwtExpirationMs);
@@ -37,6 +39,8 @@ public class JwtUtil {
                 .signWith(key, SignatureAlgorithm.HS256)
                 .compact();
     }
+
+
 
     public String extractUsername(String token) {
         return parseClaims(token).getSubject();
