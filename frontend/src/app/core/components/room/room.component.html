@@ -1,6 +1,20 @@
-<!-- src/app/core/components/room/room.component.html -->
 <div class="rooms-page">
   <h2>Meeting Rooms</h2>
+
+  <!-- Create Room form for Admins -->
+  <div *ngIf="auth.hasRole('ROLE_ADMIN')" class="create-room-form">
+    <h3>Add New Room</h3>
+    <mat-form-field appearance="fill">
+      <input matInput placeholder="Room Name" [(ngModel)]="newRoom.roomName">
+    </mat-form-field>
+    <mat-form-field appearance="fill">
+      <input matInput placeholder="Location" [(ngModel)]="newRoom.roomLocation">
+    </mat-form-field>
+    <mat-form-field appearance="fill">
+      <input matInput placeholder="Capacity" type="number" [(ngModel)]="newRoom.capacity">
+    </mat-form-field>
+    <button mat-raised-button color="primary" (click)="createRoom()">Create Room</button>
+  </div>
 
   <div *ngIf="loading">Loading rooms...</div>
   <div *ngIf="error" class="error">{{ error }}</div>
