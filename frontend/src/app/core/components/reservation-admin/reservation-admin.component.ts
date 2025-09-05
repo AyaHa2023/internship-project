@@ -1,5 +1,4 @@
-// src/app/core/components/reservation-admin/reservation-admin.component.ts
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, inject } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { ReservationService } from '../../services/reservation.service';
 import { ReservationResponse } from '../../models/reservation.model';
@@ -12,41 +11,30 @@ import { ReservationResponse } from '../../models/reservation.model';
   styleUrls: ['./reservation-admin.component.css']
 })
 export class ReservationAdminComponent implements OnInit {
+  private reservationService = inject(ReservationService);
+
   reservations: ReservationResponse[] = [];
-  loading = false;
   error: string | null = null;
+  loading = false;
 
-  constructor(private reservationService: ReservationService) {}
-
-  ngOnInit(): void {
-    this.loadAll();
-  }
-
-  loadAll(): void {
+  ngOnInit() {
     this.loading = true;
-    this.error = null;
-    // when called without userId, backend returns all reservations (admin)
-    this.reservationService.listMine().subscribe({
+    this.reservationService.listMine().subscribe({ // admin fetches all
       next: (data: ReservationResponse[]) => {
         this.reservations = data;
         this.loading = false;
       },
       error: (err: any) => {
-        console.error('Error fetching reservations', err);
-        this.error = err?.error?.message || err?.message || 'Failed to load reservations';
+        this.error = err?.message || 'Failed to load all reservations';
         this.loading = false;
       }
     });
   }
 
-  cancel(id: number): void {
-    if (!confirm('Cancel this reservation?')) return;
-    this.reservationService.cancel(id).subscribe({
-      next: () => this.loadAll(),
-      error: (err: any) => {
-        console.error('Error cancelling reservation', err);
-        this.error = err?.error?.message || err?.message || 'Cancel failed';
-      }
+  cancel(reservationId: number) {
+    this.reservationService.cancel(reservationId).subscribe({
+      next: () => this.ngOnInit(),
+      error: (err: any) => alert('Cancel failed: ' + (err?.message || 'unknown'))
     });
   }
 }

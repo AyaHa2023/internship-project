@@ -7,7 +7,8 @@ import { RoomModel } from '../models/room.model';
 
 @Injectable({ providedIn: 'root' })
 export class RoomService {
-  private base = `${environment.apiBaseUrl}/api/rooms`;
+  private base = `${environment.apiBaseUrl}/api/v1/rooms`; // <-- add /v1 to match backend
+
 
   constructor(private http: HttpClient) {}
 

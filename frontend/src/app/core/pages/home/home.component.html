@@ -1,15 +1,6 @@
-<!-- src/app/core/pages/home/home.component.html -->
-<div class="home-container">
-  <h1>Welcome</h1>
-
-  <div *ngIf="!isLogged()">
-    <p>Please <a routerLink="/login">login</a> to continue.</p>
-  </div>
-
-  <div *ngIf="isLogged()" class="button-grid">
-    <button (click)="goMakeReservation()">Make reservation</button>
-    <button (click)="goMyReservations()">See my reservations</button>
-    <button *ngIf="isAdmin()" (click)="goAllReservations()">See activity (admin)</button>
-    <button (click)="goRooms()">Rooms</button>
-  </div>
+<div class="home-buttons">
+  <button routerLink="/reservations/create">Make reservation</button>
+  <button routerLink="/reservations">See my reservations</button>
+  <button *ngIf="auth.hasRole('ROLE_ADMIN')" routerLink="/admin/activity">See activity</button>
+  <button *ngIf="auth.hasRole('ROLE_ADMIN')" routerLink="/rooms">Rooms</button>
 </div>

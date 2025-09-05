@@ -1,5 +1,4 @@
-// src/app/core/components/reservation-list/reservation-list.component.ts
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, inject } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { ReservationService } from '../../services/reservation.service';
 import { ReservationResponse } from '../../models/reservation.model';
@@ -13,42 +12,37 @@ import { AuthService } from '../../services/auth.service';
   styleUrls: ['./reservation-list.component.css']
 })
 export class ReservationListComponent implements OnInit {
+  private reservationService = inject(ReservationService);
+  private auth = inject(AuthService);
+
   reservations: ReservationResponse[] = [];
-  loading = false;
   error: string | null = null;
-  userId: number | null = null;
+  loading = false;
 
-  constructor(private reservationService: ReservationService, private auth: AuthService) {}
+  ngOnInit() {
+    const userId = this.auth.getUserId();
+    if (!userId) {
+      this.error = 'Not logged in';
+      return;
+    }
 
-  ngOnInit(): void {
-    this.userId = this.auth.getUserId();
-    this.loadReservations();
-  }
-
-  loadReservations(): void {
     this.loading = true;
-    this.error = null;
-    this.reservationService.listMine(this.userId ?? undefined).subscribe({
+    this.reservationService.listMine(userId).subscribe({
       next: (data: ReservationResponse[]) => {
         this.reservations = data;
         this.loading = false;
       },
       error: (err: any) => {
-        console.error('Error fetching reservations', err);
-        this.error = err?.error?.message || err?.message || 'Failed to load reservations';
+        this.error = err?.message || 'Failed to load reservations';
         this.loading = false;
       }
     });
   }
 
-  cancel(id: number): void {
-    if (!confirm('Cancel this reservation?')) return;
-    this.reservationService.cancel(id).subscribe({
-      next: () => this.loadReservations(),
-      error: (err: any) => {
-        console.error('Error cancelling reservation', err);
-        this.error = err?.error?.message || err?.message || 'Cancel failed';
-      }
+  cancel(reservationId: number) {
+    this.reservationService.cancel(reservationId).subscribe({
+      next: () => this.ngOnInit(),
+      error: (err: any) => alert('Cancel failed: ' + (err?.message || 'unknown'))
     });
   }
 }

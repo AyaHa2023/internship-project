@@ -1,21 +1,25 @@
 import { Routes } from '@angular/router';
-import { HomeComponent } from './core/pages/home/home.component';
 import { LoginComponent } from './core/pages/login/login.component';
-import { ProfileComponent } from './core/pages/profile/profile.component';
-import { RoomComponent } from './core/components/room/room.component';
+import { HomeComponent } from './core/pages/home/home.component';
 import { ReservationComponent } from './core/components/reservation/reservation.component';
+import { ReservationListComponent } from './core/components/reservation-list/reservation-list.component';
+import { ReservationAdminComponent } from './core/components/reservation-admin/reservation-admin.component';
+import { RoomComponent } from './core/components/room/room.component';
 import { AuthGuard } from './core/guards/auth.guard';
 import { AdminGuard } from './core/guards/admin.guard';
 
 export const routes: Routes = [
-  { path: '', redirectTo: 'home', pathMatch: 'full' },
-  { path: 'home', component: HomeComponent },
+  { path: '', redirectTo: 'login', pathMatch: 'full' },  // login is entry point
   { path: 'login', component: LoginComponent },
-  { path: 'profile', component: ProfileComponent, canActivate: [AuthGuard] },
-  { path: 'rooms', component: RoomComponent },
+  { path: 'home', component: HomeComponent, canActivate: [AuthGuard] },
+
+  // Reservations
   { path: 'reservations/create', component: ReservationComponent, canActivate: [AuthGuard] },
-  { path: 'reservations', component: ReservationComponent, canActivate: [AuthGuard] }, // you can adapt to a list view later
-  // admin routes (example)
-  { path: 'admin/rooms', component: RoomComponent, canActivate: [AdminGuard] },
-  { path: '**', redirectTo: 'home' }
+  { path: 'reservations', component: ReservationListComponent, canActivate: [AuthGuard] },
+  { path: 'admin/activity', component: ReservationAdminComponent, canActivate: [AdminGuard] },
+
+  // Rooms
+  { path: 'rooms', component: RoomComponent, canActivate: [AdminGuard] },
+
+  { path: '**', redirectTo: 'login' }
 ];
