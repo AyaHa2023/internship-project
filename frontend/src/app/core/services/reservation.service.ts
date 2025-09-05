@@ -33,4 +33,15 @@ export class ReservationService {
   getById(id: number): Observable<ReservationResponse> {
     return this.http.get<ReservationResponse>(`${this.base}/${id}`);
   }
+
+  // by user ID
+  listByUserId(userId: number): Observable<ReservationResponse[]> {
+    return this.http.get<ReservationResponse[]>(`${this.base}/user/${userId}`);
+  }
+
+// by email
+  listByEmail(email: string): Observable<ReservationResponse[]> {
+    return this.http.get<ReservationResponse[]>(`${this.base}/user/email/${email}`);
+  }
+
 }

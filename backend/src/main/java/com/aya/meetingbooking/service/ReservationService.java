@@ -167,4 +167,14 @@ public class ReservationService {
         dto.setStatus(reservation.getStatus());
         return dto;
     }
+
+    public List<ReservationResponseDto> getUserReservationsByEmail(String email) {
+        AppUser user = userRepo.findByEmail(email)
+                .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "User not found"));
+        return reservationRepo.findByUser_Id(user.getId())
+                .stream()
+                .map(this::toDto)
+                .collect(Collectors.toList());
+    }
+
 }

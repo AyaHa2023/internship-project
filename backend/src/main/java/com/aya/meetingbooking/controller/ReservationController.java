@@ -76,6 +76,11 @@ public ResponseEntity<Map<String, String>> cancelReservation(@PathVariable Long 
         ReservationResponseDto updated = reservationService.updateReservation(id, dto);
         return ResponseEntity.ok(updated);
     }
+    @PreAuthorize("hasRole('ADMIN')")
+    @GetMapping("/user/email/{email}")
+    public List<ReservationResponseDto> getReservationsForUserByEmail(@PathVariable String email) {
+        return reservationService.getUserReservationsByEmail(email);
+    }
 
 
 }

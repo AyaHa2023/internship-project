@@ -8,3 +8,18 @@
 
   <button (click)="cancel(r.reservationId)">Cancel</button>
 </div>
+<div>
+  <input [(ngModel)]="searchTerm" placeholder="Search by User ID or Email">
+  <button (click)="search()">Search</button>
+  <button (click)="loadAll()">Reset</button>
+</div>
+
+<div *ngIf="loading">Loading...</div>
+<div *ngIf="error">{{ error }}</div>
+
+<ul>
+  <li *ngFor="let r of reservations">
+    {{ r.roomName }} — {{ r.date }} {{ r.startTime }}-{{ r.endTime }} (User: {{ r.userId }})
+    <button (click)="cancel(r.reservationId)">Cancel</button>
+  </li>
+</ul>
