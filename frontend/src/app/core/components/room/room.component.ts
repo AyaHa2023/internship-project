@@ -1,3 +1,4 @@
+// src/app/core/components/room/room.component.ts
 import { Component, OnInit, inject } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { RouterModule } from '@angular/router';
@@ -28,7 +29,7 @@ export class RoomComponent implements OnInit {
     this.loading = true;
     this.roomService.getAll().subscribe({
       next: data => { this.rooms = data; this.loading = false; },
-      error: err => { this.error = err?.message || 'Failed to load rooms'; this.loading = false; }
+      error: (err: any) => { this.error = err?.message || 'Failed to load rooms'; this.loading = false; }
     });
   }
 
@@ -37,7 +38,7 @@ export class RoomComponent implements OnInit {
     if (!confirm('Are you sure you want to delete this room?')) return;
     this.roomService.delete(id).subscribe({
       next: () => this.loadRooms(),
-      error: err => alert('Delete failed: ' + (err?.error || err?.message))
+      error: (err: any) => alert('Delete failed: ' + (err?.error || err?.message))
     });
   }
 }

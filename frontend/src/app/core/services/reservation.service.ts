@@ -1,4 +1,4 @@
-
+// src/app/core/services/reservation.service.ts
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { environment } from '../../../environments/environment';
@@ -11,22 +11,19 @@ export class ReservationService {
 
   constructor(private http: HttpClient) {}
 
-
   create(req: ReservationRequest): Observable<ReservationResponse> {
     return this.http.post<ReservationResponse>(this.base, req);
   }
-
 
   cancel(id: number): Observable<void> {
     return this.http.delete<void>(`${this.base}/${id}`);
   }
 
-
+  // listMine(userId?) -> backend expects ?userId=<id> or no param to list all
   listMine(userId?: number): Observable<ReservationResponse[]> {
     const url = userId ? `${this.base}?userId=${userId}` : this.base;
     return this.http.get<ReservationResponse[]>(url);
   }
-
 
   getById(id: number): Observable<ReservationResponse> {
     return this.http.get<ReservationResponse>(`${this.base}/${id}`);

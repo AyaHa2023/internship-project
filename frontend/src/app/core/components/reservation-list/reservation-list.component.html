@@ -1,0 +1,11 @@
+<!-- reservation-list.component.html -->
+<div *ngFor="let r of reservations">
+  <strong>ID:</strong> {{ r.reservationId }} |
+  <strong>User:</strong> {{ r.userId }} |
+  <strong>Room:</strong> {{ r.roomId }} ({{ r.roomName || '—' }}) |
+  <strong>Date:</strong> {{ r.date }} |
+  <strong>Time:</strong> {{ r.startTime }} - {{ r.endTime }} |
+  <strong>Status:</strong> {{ r.status }}
+
+  <button (click)="cancel(r.reservationId)">Cancel</button>
+</div>

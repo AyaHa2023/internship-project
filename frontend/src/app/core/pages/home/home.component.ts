@@ -1,50 +1,26 @@
-// src/app/pages/home/home.component.ts
-import { Component } from '@angular/core';
+// src/app/core/pages/home/home.component.ts
+import { Component, inject } from '@angular/core';
+import { RouterModule, Router } from '@angular/router';
 import { CommonModule } from '@angular/common';
-import { FormsModule } from '@angular/forms';
-import { RouterModule } from '@angular/router';
-
-import { MatButtonModule } from '@angular/material/button';
-import { MatDatepickerModule } from '@angular/material/datepicker'; // for <mat-calendar>
-import { MatNativeDateModule } from '@angular/material/core';       // date adapter/provider
-import { MatFormFieldModule } from '@angular/material/form-field';
-import { MatInputModule } from '@angular/material/input';
-import { MatListModule } from '@angular/material/list';
-import { MatIconModule } from '@angular/material/icon';
-import { MatCardModule } from '@angular/material/card';
+import { AuthService } from '../../services/auth.service';
 
 @Component({
   selector: 'app-home',
   standalone: true,
-  imports: [
-    CommonModule,
-    FormsModule,
-    RouterModule,
-    MatButtonModule,
-    MatDatepickerModule,
-    MatNativeDateModule,
-    MatFormFieldModule,
-    MatInputModule,
-    MatListModule,
-    MatIconModule,
-    MatCardModule
-  ],
+  imports: [CommonModule, RouterModule],
   templateUrl: './home.component.html',
   styleUrls: ['./home.component.css']
 })
 export class HomeComponent {
-  newTask = '';
-  tasks: string[] = [];
+  private router = inject(Router);
+  public auth = inject(AuthService);
 
-  addTask(): void {
-    const t = this.newTask.trim();
-    if (t) {
-      this.tasks.push(t);
-      this.newTask = '';
-    }
-  }
+  // Helpers used in template
+  isAdmin(): boolean { return this.auth.hasRole('ROLE_ADMIN'); }
+  isLogged(): boolean { return this.auth.isLoggedIn(); }
 
-  removeTask(index: number): void {
-    this.tasks.splice(index, 1);
-  }
+  goMakeReservation() { this.router.navigate(['/reservations/create']); }
+  goMyReservations() { this.router.navigate(['/reservations']); }
+  goAllReservations() { this.router.navigate(['/reservations/admin']); }
+  goRooms() { this.router.navigate(['/rooms']); }
 }

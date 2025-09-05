@@ -1,0 +1,6 @@
+/* src/app/core/components/reservation-list/reservation-list.component.css */
+.reservations-page { padding: 1rem; }
+.reservation-list { list-style:none; padding:0; }
+.reservation-list li { display:flex; justify-content:space-between; padding:0.6rem 0; border-bottom:1px solid #eee; }
+button { padding:6px 8px; background:#d9534f; color:white; border:none; border-radius:4px; cursor:pointer; }
+.error { color: red; }

@@ -1,40 +1,15 @@
+<!-- src/app/core/pages/home/home.component.html -->
 <div class="home-container">
-  <h1>Welcome to Teams Room Booking</h1>
-  <p class="subtitle">Book your teams room in seconds!</p>
+  <h1>Welcome</h1>
 
-  <div class="button-group">
-    <button mat-raised-button color="primary" routerLink="/rooms">
-      View Rooms
-    </button>
-    <button mat-raised-button color="accent" routerLink="/reservations">
-      My Reservations
-    </button>
+  <div *ngIf="!isLogged()">
+    <p>Please <a routerLink="/login">login</a> to continue.</p>
   </div>
 
-  <!-- New section for Calendar + To-Do list -->
-  <div class="content-row">
-    <!-- Calendar -->
-    <div class="calendar-container">
-      <mat-calendar></mat-calendar>
-    </div>
-
-    <!-- To-Do List -->
-    <div class="todo-container">
-      <h2 class="todolisttitle">To-Do List</h2>
-      <mat-form-field appearance="fill" class="full-width">
-        <mat-label>New Task</mat-label>
-        <input matInput [(ngModel)]="newTask" (keyup.enter)="addTask()" />
-      </mat-form-field>
-      <button mat-raised-button color="primary" (click)="addTask()">Add</button>
-
-      <mat-list>
-        <mat-list-item *ngFor="let task of tasks; let i = index">
-          {{ task }}
-          <button mat-icon-button color="warn" (click)="removeTask(i)">
-            <mat-icon>delete</mat-icon>
-          </button>
-        </mat-list-item>
-      </mat-list>
-    </div>
+  <div *ngIf="isLogged()" class="button-grid">
+    <button (click)="goMakeReservation()">Make reservation</button>
+    <button (click)="goMyReservations()">See my reservations</button>
+    <button *ngIf="isAdmin()" (click)="goAllReservations()">See activity (admin)</button>
+    <button (click)="goRooms()">Rooms</button>
   </div>
 </div>

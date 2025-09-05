@@ -1,0 +1,17 @@
+<!-- src/app/core/components/room-form/room-form.component.html -->
+<div class="room-form">
+  <h2>Create Room</h2>
+
+  <div *ngIf="error" class="error">{{ error }}</div>
+
+  <label>Room name</label>
+  <input [(ngModel)]="newRoom.roomName" name="roomName" />
+
+  <label>Location</label>
+  <input [(ngModel)]="newRoom.roomLocation" name="roomLocation" />
+
+  <label>Capacity</label>
+  <input type="number" [(ngModel)]="newRoom.capacity" name="capacity" />
+
+  <button (click)="save()" [disabled]="loading">Save</button>
+</div>

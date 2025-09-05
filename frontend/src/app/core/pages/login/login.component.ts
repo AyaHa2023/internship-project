@@ -31,10 +31,19 @@ export class LoginComponent {
     if (this.form.invalid) return;
     this.loading = true;
     this.error = null;
-    const { username, password } = this.form.value;
-    this.auth.login(String(username), String(password)).subscribe({
-      next: () => { this.loading = false; this.router.navigate(['/home']); },
-      error: (err) => { this.loading = false; this.error = err?.error || err?.message || 'Login failed'; }
+
+    const username = String(this.form.get('username')?.value ?? '');
+    const password = String(this.form.get('password')?.value ?? '');
+
+    this.auth.login(username, password).subscribe({
+      next: () => {
+        this.loading = false;
+        this.router.navigate(['/home']); // ✅ only 2 args passed to login()
+      },
+      error: (err: any) => {
+        this.loading = false;
+        this.error = err?.error?.message || err?.error || err?.message || 'Login failed';
+      }
     });
   }
 }

@@ -1,4 +1,3 @@
-// src/app/core/services/auth.service.ts
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { environment } from '../../../environments/environment';
@@ -20,7 +19,6 @@ export class AuthService {
     return this.http.post<LoginResponse>(`${this.base}/login`, { username, password }).pipe(
       map(res => {
         this.tokens.saveToken(res.token);
-        // decode token safely to extract username, roles, maybe userId
         try {
           const decoded: any = jwtDecode(res.token);
           const roles: string[] = Array.isArray(decoded?.roles) ? decoded.roles : [];
@@ -32,7 +30,6 @@ export class AuthService {
             this.tokens.saveUserId(Number(userId));
           }
         } catch {
-          // fallback
           this.tokens.saveUsername(username);
           this.tokens.saveRoles([]);
         }
@@ -49,10 +46,9 @@ export class AuthService {
   }
 
   hasRole(role: string): boolean {
-    return this.tokens.hasRole(role);
+    return this.tokens.hasRole(role); // ✅ fix for your room.component.html
   }
 
-  // Provide a typed getUserId used by components
   getUserId(): number | null {
     const id = this.tokens.getUserId();
     return id !== null && id !== undefined ? Number(id) : null;

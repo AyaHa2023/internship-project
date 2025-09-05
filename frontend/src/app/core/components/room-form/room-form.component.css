@@ -1,0 +1,6 @@
+/* src/app/core/components/room-form/room-form.component.css */
+.room-form { padding: 1rem; max-width: 460px; }
+.room-form label { display:block; margin-top:8px; }
+.room-form input { width:100%; padding:6px; margin-top:4px; box-sizing:border-box; }
+button { margin-top:12px; padding:8px 12px; background:#1976d2; color:white; border:none; border-radius:6px; cursor:pointer; }
+.error { color:#b00020; }

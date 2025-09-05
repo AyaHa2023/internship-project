@@ -5,6 +5,5 @@ export interface RoomModel {
   roomName: string;
   roomLocation?: string;
   capacity?: number;
-  // any other fields from backend:
-  description?: string;
+
 }

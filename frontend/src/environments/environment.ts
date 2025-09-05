@@ -1,4 +1,5 @@
+// src/environments/environment.ts
 export const environment = {
-  production: true,
-  apiBaseUrl: 'http://localhost:8080/api/v1'
+  production: false,
+  apiBaseUrl: 'http://localhost:8080'   // correct for your current services
 };
