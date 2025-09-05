@@ -3,6 +3,7 @@ package com.aya.meetingbooking.controller;
 import com.aya.meetingbooking.dto.ReservationRequestDto;
 import com.aya.meetingbooking.dto.ReservationResponseDto;
 import com.aya.meetingbooking.service.ReservationService;
+import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.http.ResponseEntity;
@@ -28,7 +29,8 @@ public class ReservationController {
     @PreAuthorize("hasAnyRole('USER', 'ADMIN')")
 
     @PostMapping
-    public ReservationResponseDto createReservation(@RequestBody ReservationRequestDto requestDto) {
+    public ReservationResponseDto createReservation(@Valid @RequestBody ReservationRequestDto requestDto) {
+        System.out.println("DTO received: " + requestDto);   // debug
         ReservationResponseDto response = reservationService.bookRoom(requestDto);
         System.out.println("Reservation created: " + response);
         return response;

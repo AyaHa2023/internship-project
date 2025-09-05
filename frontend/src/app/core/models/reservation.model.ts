@@ -7,15 +7,15 @@ export interface ReservationRequest {
   startTime: string; // "HH:mm"
   endTime: string;   // "HH:mm"
 }
-
 export interface ReservationResponse {
-  reservationId: number;   // align with backend
+  reservationId: number;   // matches backend Long
   userId: number;
   roomId: number;
-  roomName: string;        // align with backend
+  roomName: string;        // matches backend
   date: string;
   startTime: string;
   endTime: string;
-  status?: string;
-  createdAt?: string;
+  status?: string;         // optional in TS, backend always sets "BOOKED" or "CANCELED"
+  createdAt?: string;      // optional, if you want timestamps later
 }
+

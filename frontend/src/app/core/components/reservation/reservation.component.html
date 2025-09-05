@@ -1,33 +1,23 @@
-<div class="reservation-page">
-  <h2>Create Reservation</h2>
+<div>
+  <h2>Make a Reservation</h2>
 
-  <form [formGroup]="form" (ngSubmit)="submit()">
-    <mat-form-field appearance="outline" style="width:100%">
-      <mat-label>Room</mat-label>
-      <mat-select formControlName="roomId">
-        <mat-option *ngFor="let r of rooms" [value]="r.id">{{ r.roomName }} ({{ r.roomLocation }})</mat-option>
-      </mat-select>
-    </mat-form-field>
+  <form (ngSubmit)="submit()" #resForm="ngForm">
+    <label>Room</label>
+    <select [(ngModel)]="model.roomId" name="roomId" required>
+      <option *ngFor="let r of rooms" [value]="r.id">{{ r.roomName }}</option>
+    </select>
 
-    <mat-form-field appearance="outline" style="width:100%">
-      <mat-label>Date</mat-label>
-      <input matInput type="date" formControlName="date" />
-    </mat-form-field>
+    <label>Date</label>
+    <input type="date" [(ngModel)]="model.date" name="date" required />
 
-    <mat-form-field appearance="outline" style="width:48%; margin-right:4%">
-      <mat-label>Start time</mat-label>
-      <input matInput type="time" formControlName="startTime" />
-    </mat-form-field>
+    <label>Start time</label>
+    <input type="time" [(ngModel)]="model.startTime" name="startTime" required />
 
-    <mat-form-field appearance="outline" style="width:48%">
-      <mat-label>End time</mat-label>
-      <input matInput type="time" formControlName="endTime" />
-    </mat-form-field>
+    <label>End time</label>
+    <input type="time" [(ngModel)]="model.endTime" name="endTime" required />
 
-    <div *ngIf="error" class="error">{{ error }}</div>
-
-    <button mat-raised-button color="primary" type="submit" [disabled]="loading">
-      {{ loading ? 'Submitting...' : 'Reserve' }}
-    </button>
+    <button type="submit">Reserve</button>
   </form>
+
+  <div *ngIf="error" class="error">{{ error }}</div>
 </div>

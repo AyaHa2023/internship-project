@@ -1,14 +1,25 @@
 package com.aya.meetingbooking.dto;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
+import jakarta.validation.constraints.NotNull;
+
 import java.time.LocalDate;
 import java.time.LocalTime;
 
 public class ReservationRequestDto {
 
+    @NotNull
     private Long userId;
+    @NotNull
     private Long roomId;
+    @NotNull
+    @JsonFormat(pattern = "yyyy-MM-dd")
     private LocalDate date;
+    @NotNull
+    @JsonFormat(pattern = "HH:mm")
     private LocalTime startTime;
+    @NotNull
+    @JsonFormat(pattern = "HH:mm")
     private LocalTime endTime;
 
     public ReservationRequestDto() {

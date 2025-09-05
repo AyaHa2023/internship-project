@@ -1,113 +1,52 @@
-// src/app/core/components/reservation/reservation.component.ts
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, inject } from '@angular/core';
+import { FormsModule } from '@angular/forms';   // ✅ import this
 import { CommonModule } from '@angular/common';
-import { ReactiveFormsModule, FormBuilder, FormGroup, Validators } from '@angular/forms';
-import { RouterModule, ActivatedRoute, Router } from '@angular/router';
-import { MatFormFieldModule } from '@angular/material/form-field';
-import { MatSelectModule } from '@angular/material/select';
-import { MatInputModule } from '@angular/material/input';
-import { MatButtonModule } from '@angular/material/button';
-import { MatIconModule } from '@angular/material/icon';
-import { MatListModule } from '@angular/material/list';
 
 import { ReservationService } from '../../services/reservation.service';
-import { RoomService } from '../../services/room.service';
-import { UserService } from '../../services/user.service';
 import { AuthService } from '../../services/auth.service';
+import { RoomService } from '../../services/room.service';
 import { ReservationRequest } from '../../models/reservation.model';
+import { RoomModel } from '../../models/room.model';
 
 @Component({
   selector: 'app-reservation',
   standalone: true,
-  imports: [
-    CommonModule,
-    ReactiveFormsModule,
-    RouterModule,
-    MatFormFieldModule,
-    MatSelectModule,
-    MatInputModule,
-    MatButtonModule,
-    MatIconModule,
-    MatListModule
-  ],
+  imports: [CommonModule, FormsModule],   // ✅ add FormsModule here
   templateUrl: './reservation.component.html',
   styleUrls: ['./reservation.component.css']
 })
 export class ReservationComponent implements OnInit {
+  private reservationService = inject(ReservationService);
+  private auth = inject(AuthService);
+  private roomService = inject(RoomService);
 
-  form: FormGroup;
-  rooms: any[] = [];
-  loading = false;
+  rooms: RoomModel[] = [];
   error: string | null = null;
-  roomIdFromQuery?: number;
-  currentUserId?: number | null = null;
 
-  constructor(
-    private fb: FormBuilder,
-    private reservationService: ReservationService,
-    private roomService: RoomService,
-    private route: ActivatedRoute,
-    private userService: UserService,
-    private router: Router,
-    public auth: AuthService
-  ) {
-    this.form = this.fb.group({
-      roomId: [null, Validators.required],
-      date: ['', Validators.required],
-      startTime: ['', Validators.required],
-      endTime: ['', Validators.required]
-    });
-  }
+  model: ReservationRequest = {
+    userId: 0,
+    roomId: 0,
+    date: '',
+    startTime: '',
+    endTime: ''
+  };
 
-  ngOnInit(): void {
-    // load rooms (roomService.getAll() must point to correct /api/rooms)
+  ngOnInit() {
     this.roomService.getAll().subscribe({
-      next: (r: any[]) => this.rooms = r,
-      error: (_: any) => this.rooms = []
+      next: (data) => (this.rooms = data),
+      error: (err) => (this.error = err.message)
     });
 
-    // preselect room from query param
-    this.route.queryParams.subscribe(params => {
-      const rid = params['roomId'];
-      if (rid) {
-        this.roomIdFromQuery = Number(rid);
-        this.form.patchValue({ roomId: this.roomIdFromQuery });
-      }
-    });
-
-    // get current user id via /users/me
-    this.userService.getMe().subscribe({
-      next: (u: any) => this.currentUserId = u?.id ?? null,
-      error: (_: any) => this.currentUserId = null
-    });
+    const uid = this.auth.getUserId();
+    if (uid) this.model.userId = uid;
   }
 
-  submit(): void {
-    if (this.form.invalid || !this.currentUserId) {
-      this.error = 'Please fill the form and ensure you are logged in.';
-      return;
-    }
-
-    this.loading = true;
-    this.error = null;
-
-    const payload: ReservationRequest = {
-      userId: this.currentUserId!,
-      roomId: Number(this.form.value.roomId),
-      date: this.form.value.date,
-      startTime: this.form.value.startTime,
-      endTime: this.form.value.endTime
-    };
-
-    this.reservationService.create(payload).subscribe({
-      next: () => {
-        this.loading = false;
-        alert('Reservation created successfully.');
-        this.router.navigate(['/reservations']);
-      },
-      error: (err: any) => {
-        this.loading = false;
-        this.error = err?.error || err?.message || 'Failed to create reservation';
+  submit() {
+    this.reservationService.create(this.model).subscribe({
+      next: () => alert('Reservation created!'),
+      error: (err) => {
+        console.error('Reservation error:', err);
+        alert('Failed to create reservation. Check console for details.');
       }
     });
   }
