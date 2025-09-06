@@ -6,6 +6,7 @@ import { MatToolbarModule } from '@angular/material/toolbar';
 import { MatButtonModule } from '@angular/material/button';
 import { MatIconModule } from '@angular/material/icon';
 import { AuthService } from '../../services/auth.service';
+import { NgOptimizedImage } from '@angular/common';
 
 @Component({
   selector: 'app-navbar',
@@ -15,7 +16,8 @@ import { AuthService } from '../../services/auth.service';
     RouterModule,
     MatToolbarModule,
     MatButtonModule,
-    MatIconModule
+    MatIconModule,
+    NgOptimizedImage
   ],
   templateUrl: './navbar.component.html',
   styleUrls: ['./navbar.component.css']

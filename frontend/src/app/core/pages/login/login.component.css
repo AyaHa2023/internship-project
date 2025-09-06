@@ -3,84 +3,53 @@
   height: 100vh;
   width: 100%;
   overflow: hidden;
+  font-family: "Roboto", sans-serif;
 }
 
-/* Left: Logo + Login */
+/* Left Section: Form Area */
 .left-section {
   flex: 1;
   display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  background: linear-gradient(135deg, #f3e9f7, #9871b9);
+  background: linear-gradient(135deg, #1e1e2f, #2a2a40);
+  color: #fff;
   padding: 2rem;
 }
 
 .top-logo {
-  margin-top: auto;
-  width: 500px;
+  width: 200px;
   height: auto;
   margin-bottom: 1rem;
+  animation: fadeInDown 1s ease;
 }
 
-/* Right: Full height image */
-.right-section {
-  width: 55%;
-  height: 100%;
-  position: relative;
-}
-
-.side-image {
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
-  mask-image: linear-gradient(to right, transparent 0%, black 20%);
-  -webkit-mask-image: linear-gradient(to right, transparent 0%, black 20%);
-}
-
-.right-section::before {
-  content: "";
-  position: absolute;
-  left: 0;
-  top: 0;
-  width: 100px; /* Width of gradient fade */
-  height: 100%;
-  background: linear-gradient(to right, #f3e9f7 0%, transparent 100%);
-  z-index: 2;
-}
-
-/* Overlay slogan */
-.slogan-overlay {
-  position: absolute;
-  top: 20%;
-  left: 50%;
-  transform: translate(-50%, -50%);
-  color: white;
-  font-size: 2.8rem;
-  font-weight: 900;
-  text-shadow: 1px 1px 4px rgba(0, 0, 0, 0.5);
+.slogan {
+  font-size: 1.2rem;
+  font-weight: 400;
+  color: #b0aee3;
+  margin-bottom: 2rem;
   text-align: center;
-  z-index: 3;
-  max-width: 80%;
-  line-height: 1.4;
+  animation: fadeIn 2s ease;
 }
 
-/* Card Styles */
+/* Login Card */
 .login-card {
-  width: 400px;
+  width: 380px;
   padding: 2rem;
   border-radius: 16px;
-  background-color: #f5f5f5;
-  box-shadow: 0 10px 20px rgba(0, 0, 0, 0.15);
-  margin-bottom: 10rem;
+  background-color: #ffffff;
+  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.25);
+  animation: slideUp 1s ease;
 }
 
 .login-title {
-  font-size: 1.75rem;
+  font-size: 1.5rem;
   font-weight: 600;
-  color: #4e2a72;
+  color: #2a2a40;
   text-align: center;
-  margin-bottom: 1rem;
+  margin-bottom: 1.5rem;
 }
 
 .full-width {
@@ -90,28 +59,97 @@
 
 .login-button {
   margin-top: 1.5rem;
-  background-color: #6a1b9a;
+  background: linear-gradient(90deg, #3a4eff, #6a1b9a);
   color: #fff;
+  font-weight: 600;
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
 }
 
 .login-button:hover {
-  background-color: #8e24aa;
+  transform: scale(1.05);
+  box-shadow: 0 4px 12px rgba(58, 78, 255, 0.4);
 }
 
-.signup-prompt {
-  margin-top: 1rem;
-  font-size: 0.95rem;
+.error {
+  color: #d32f2f;
+  font-size: 0.9rem;
+  margin-top: 0.5rem;
   text-align: center;
-  color: #4e2a72;
+}
+.right-section {
+  width: 55%;
+  height: 100%;
+  position: relative;
+  background: linear-gradient(135deg, #1e1e2f, #2a2a40, #3a4eff);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  overflow: hidden;
 }
 
-.signup-prompt a {
-  color: #6a1b9a;
+/* Floating background circles */
+.right-section::before,
+.right-section::after {
+  content: "";
+  position: absolute;
+  border-radius: 50%;
+  opacity: 0.2;
+  animation: float 12s infinite ease-in-out;
+}
+
+.right-section::before {
+  width: 300px;
+  height: 300px;
+  background: #6a1b9a;
+  top: 10%;
+  left: 20%;
+}
+
+.right-section::after {
+  width: 200px;
+  height: 200px;
+  background: #3a4eff;
+  bottom: 15%;
+  right: 25%;
+  animation-delay: 6s;
+}
+
+/* Quotes */
+.quote-rotator {
+  position: relative;
+  width: 80%;
+  max-width: 500px;
+  color: #fff;
+  font-size: 1.6rem;
   font-weight: 600;
-  text-decoration: none;
-  margin-left: 5px;
+  text-align: center;
 }
 
-.signup-prompt a:hover {
-  text-decoration: underline;
+.quote {
+  opacity: 0;
+  position: absolute;
+  width: 100%;
+  top: 0;
+  left: 0;
+  animation: fadeQuotes 16s infinite;
+}
+
+/* Animate each quote in sequence */
+.quote:nth-child(1) { animation-delay: 0s; }
+.quote:nth-child(2) { animation-delay: 4s; }
+.quote:nth-child(3) { animation-delay: 8s; }
+.quote:nth-child(4) { animation-delay: 12s; }
+
+/* Animations */
+@keyframes float {
+  0%, 100% { transform: translateY(0); }
+  50% { transform: translateY(-30px); }
+}
+
+@keyframes fadeQuotes {
+  0% { opacity: 0; }
+  10% { opacity: 1; }
+  25% { opacity: 1; }
+  35% { opacity: 0; }
+  100% { opacity: 0; }
 }

@@ -1,8 +1,17 @@
 <mat-toolbar color="primary" class="navbar">
   <!-- Left: Logo -->
-  <div class="navbar-logo" (click)="router.navigate(['/'])" style="cursor: pointer;">
-    <img src="assets/logo.png" alt="Logo" width="40" height="40" />
+  <div class="navbar-logo" (click)="router.navigate(['/login'])">
+    <img
+      ngSrc="assets/logo.png"
+      width="56"
+      height="56"
+      alt="BookMyRoom Logo"
+      class="navbar-logo-img"
+    />
+
+
   </div>
+
 
   <!-- Center: Navigation links -->
   <span class="spacer"></span>
@@ -19,10 +28,7 @@
       <mat-icon class="nav-icon">event</mat-icon>
       Reservations
     </a>
-    <a mat-button routerLink="/about">
-      <mat-icon class="nav-icon">info</mat-icon>
-      About
-    </a>
+
   </div>
   <span class="spacer"></span>
 
@@ -30,7 +36,6 @@
   <div class="navbar-actions">
     <button *ngIf="!isLoggedIn" mat-button (click)="onLoginClick()" class="login-btn">Login</button>
     <ng-container *ngIf="isLoggedIn">
-      <button mat-button (click)="onProfileClick()">Profile</button>
       <button mat-button (click)="onLogoutClick()">Logout</button>
     </ng-container>
   </div>
