@@ -71,30 +71,61 @@ export class ReservationAdminComponent implements OnInit {
     });
   }
   restore(reservation: ReservationResponse) {
-    const formatDate = (d: any) => {
-      if (typeof d === 'string') return d; // already fine
-      return `${d.year}-${String(d.month).padStart(2, '0')}-${String(d.day).padStart(2, '0')}`;
+    const toReq = (r: ReservationResponse) => {
+      // ---- DATE ----
+      let date: string;
+      if (typeof r.date === 'string') {
+        date = r.date;
+      } else if (r.date && typeof r.date === 'object' && 'year' in r.date) {
+        date = `${r.date.year}-${String(r.date.month).padStart(2, '0')}-${String(r.date.day).padStart(2, '0')}`;
+      } else {
+        throw new Error('Invalid date format');
+      }
+
+      // ---- START TIME ----
+      let startTime: string;
+      if (typeof r.startTime === 'string') {
+        startTime = r.startTime.slice(0, 5); // HH:mm
+      } else if (r.startTime && typeof r.startTime === 'object' && 'hour' in r.startTime) {
+        startTime = `${String(r.startTime.hour).padStart(2, '0')}:${String(r.startTime.minute).padStart(2, '0')}`;
+      } else {
+        throw new Error('Invalid startTime format');
+      }
+
+      // ---- END TIME ----
+      let endTime: string;
+      if (typeof r.endTime === 'string') {
+        endTime = r.endTime.slice(0, 5);
+      } else if (r.endTime && typeof r.endTime === 'object' && 'hour' in r.endTime) {
+        endTime = `${String(r.endTime.hour).padStart(2, '0')}:${String(r.endTime.minute).padStart(2, '0')}`;
+      } else {
+        throw new Error('Invalid endTime format');
+      }
+
+      return {
+        userId: r.userId,
+        roomId: r.roomId,
+        date,
+        startTime,
+        endTime
+      };
     };
 
-    const formatTime = (t: any) => {
-      if (typeof t === 'string') return t.slice(0, 5); // "HH:mm"
-      return `${String(t.hour).padStart(2, '0')}:${String(t.minute).padStart(2, '0')}`;
-    };
+    this.reservationService.create(toReq(reservation)).subscribe({
+      next: (created) => {
+        // Remove the canceled reservation card
+        this.reservations = this.reservations.filter(
+          (r) => r.reservationId !== reservation.reservationId
+        );
 
-    const newReservation: ReservationRequest = {
-      userId: reservation.userId,
-      roomId: reservation.roomId,
-      date: formatDate(reservation.date),
-      startTime: formatTime(reservation.startTime),
-      endTime: formatTime(reservation.endTime)
-    };
-
-    this.reservationService.create(newReservation).subscribe({
-      next: () => this.ngOnInit(),
+        // Insert the restored one at the top
+        this.reservations = [created, ...this.reservations];
+      },
       error: (err: any) =>
-        alert('Restore failed: ' + (err?.message || 'unknown'))
+        alert('Restore failed: ' + (err?.message || 'unknown')),
     });
   }
+
 
 
 
