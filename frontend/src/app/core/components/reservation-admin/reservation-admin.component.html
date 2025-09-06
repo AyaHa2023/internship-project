@@ -20,7 +20,17 @@
       <div class="meta"><strong>Date:</strong> {{ r.date }}</div>
       <div class="meta"><strong>Time:</strong> {{ r.startTime }} – {{ r.endTime }}</div>
       <div class="status" [ngClass]="r.status">{{ r.status }}</div>
-      <button (click)="cancel(r.reservationId)">Cancel</button>
+
+      <ng-container [ngSwitch]="r.status">
+        <button *ngIf="r.status === 'BOOKED'" (click)="cancel(r.reservationId)">
+          Cancel
+        </button>
+        <button *ngIf="r.status === 'CANCELED'" (click)="restore(r)">
+          Restore
+        </button>
+
+      </ng-container>
     </div>
   </div>
+
 </div>

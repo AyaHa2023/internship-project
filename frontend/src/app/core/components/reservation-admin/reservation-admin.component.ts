@@ -2,6 +2,7 @@ import { Component, OnInit, inject } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { ReservationService } from '../../services/reservation.service';
 import { ReservationResponse } from '../../models/reservation.model';
+import { ReservationRequest } from '../../models/reservation.model';
 import { FormsModule } from '@angular/forms';
 
 @Component({
@@ -28,15 +29,19 @@ export class ReservationAdminComponent implements OnInit {
     this.loading = true;
     this.reservationService.listAll().subscribe({
       next: data => {
-        this.reservations = data;
+        // sort reservations by newest first
+        this.reservations = data.sort(
+          (a, b) => b.reservationId - a.reservationId
+        );
         this.loading = false;
       },
-      error: err => {
+      error: (err: any) => {
         this.error = err?.message || 'Failed to load reservations';
         this.loading = false;
       }
     });
   }
+
 
   search() {
     if (!this.searchTerm) {
@@ -65,4 +70,21 @@ export class ReservationAdminComponent implements OnInit {
       error: err => alert('Cancel failed: ' + (err?.message || 'unknown'))
     });
   }
+  restore(reservation: ReservationResponse) {
+    const newReservation: ReservationRequest = {
+      roomId: reservation.roomId,
+      date: reservation.date,
+      startTime: reservation.startTime,
+      endTime: reservation.endTime,
+      userId: reservation.userId
+    };
+
+    this.reservationService.create(newReservation).subscribe({
+      next: () => this.ngOnInit(),
+      error: (err: any) =>
+        alert('Restore failed: ' + (err?.message || 'unknown'))
+    });
+  }
+
+
 }
