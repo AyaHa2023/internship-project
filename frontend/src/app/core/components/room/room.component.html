@@ -27,13 +27,19 @@
       <p>Location: {{ r.roomLocation }}</p>
       <p>Capacity: {{ r.capacity }}</p>
 
-      <button mat-stroked-button color="primary" [routerLink]="['/reservations/create']" [queryParams]="{ roomId: r.id }">
-        Reserve
-      </button>
 
       <button *ngIf="auth.hasRole('ROLE_ADMIN')" mat-stroked-button color="warn" (click)="deleteRoom(r.id)">
         Delete
       </button>
+      <button mat-stroked-button color="primary" [routerLink]="['/reservations/create']" [queryParams]="{ roomId: r.id }">
+        Reserve
+      </button>
+
+      <button *ngIf="auth.hasRole('ROLE_ADMIN')" mat-stroked-button color="accent" [routerLink]="['/rooms/update', r.id]" style="margin-left:8px;">
+        Update
+      </button>
+
+
 
     </div>
   </div>

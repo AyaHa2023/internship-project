@@ -26,7 +26,7 @@ import { AuthService } from '../../services/auth.service';
 })
 export class RoomComponent implements OnInit {
   private roomService = inject(RoomService);
-  auth = inject(AuthService); // public for template
+  public auth = inject(AuthService); // public for template
 
   rooms: RoomModel[] = [];
   error: string | null = null;

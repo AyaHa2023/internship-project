@@ -7,20 +7,20 @@ import { ReservationAdminComponent } from './core/components/reservation-admin/r
 import { RoomComponent } from './core/components/room/room.component';
 import { AuthGuard } from './core/guards/auth.guard';
 import { AdminGuard } from './core/guards/admin.guard';
+import { UpdateRoomComponent } from './core/components/update-room/update-room.component';
+ // <-- add this
 
 export const routes: Routes = [
-  { path: '', redirectTo: 'login', pathMatch: 'full' },  // login is entry point
+  { path: '', redirectTo: 'login', pathMatch: 'full' },
   { path: 'login', component: LoginComponent },
   { path: 'home', component: HomeComponent, canActivate: [AuthGuard] },
 
-  // Reservations
   { path: 'reservations/create', component: ReservationComponent, canActivate: [AuthGuard] },
   { path: 'reservations', component: ReservationListComponent, canActivate: [AuthGuard] },
   { path: 'admin/activity', component: ReservationAdminComponent, canActivate: [AdminGuard] },
 
-  // Rooms
   { path: 'rooms', component: RoomComponent, canActivate: [AuthGuard] },
-
+  { path: 'rooms/update/:id', component: UpdateRoomComponent, canActivate: [AdminGuard] }, // <-- admin-only edit page
 
   { path: '**', redirectTo: 'login' }
 ];
