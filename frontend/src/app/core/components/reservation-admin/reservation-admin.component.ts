@@ -71,12 +71,22 @@ export class ReservationAdminComponent implements OnInit {
     });
   }
   restore(reservation: ReservationResponse) {
+    const formatDate = (d: any) => {
+      if (typeof d === 'string') return d; // already fine
+      return `${d.year}-${String(d.month).padStart(2, '0')}-${String(d.day).padStart(2, '0')}`;
+    };
+
+    const formatTime = (t: any) => {
+      if (typeof t === 'string') return t.slice(0, 5); // "HH:mm"
+      return `${String(t.hour).padStart(2, '0')}:${String(t.minute).padStart(2, '0')}`;
+    };
+
     const newReservation: ReservationRequest = {
+      userId: reservation.userId,
       roomId: reservation.roomId,
-      date: reservation.date,
-      startTime: reservation.startTime,
-      endTime: reservation.endTime,
-      userId: reservation.userId
+      date: formatDate(reservation.date),
+      startTime: formatTime(reservation.startTime),
+      endTime: formatTime(reservation.endTime)
     };
 
     this.reservationService.create(newReservation).subscribe({
@@ -85,6 +95,8 @@ export class ReservationAdminComponent implements OnInit {
         alert('Restore failed: ' + (err?.message || 'unknown'))
     });
   }
+
+
 
 
 }
