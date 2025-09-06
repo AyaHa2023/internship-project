@@ -19,7 +19,8 @@ export const routes: Routes = [
   { path: 'admin/activity', component: ReservationAdminComponent, canActivate: [AdminGuard] },
 
   // Rooms
-  { path: 'rooms', component: RoomComponent, canActivate: [AdminGuard] },
+  { path: 'rooms', component: RoomComponent, canActivate: [AuthGuard] },
+
 
   { path: '**', redirectTo: 'login' }
 ];
