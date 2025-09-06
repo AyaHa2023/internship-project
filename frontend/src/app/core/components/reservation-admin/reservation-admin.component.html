@@ -1,25 +1,26 @@
-<div *ngFor="let r of reservations">
-  <strong>ID:</strong> {{ r.reservationId }} |
-  <strong>User:</strong> {{ r.userId }} |
-  <strong>Room:</strong> {{ r.roomId }} ({{ r.roomName || '—' }}) |
-  <strong>Date:</strong> {{ r.date }} |
-  <strong>Time:</strong> {{ r.startTime }} - {{ r.endTime }} |
-  <strong>Status:</strong> {{ r.status }}
+<div class="admin-reservations">
 
-  <button (click)="cancel(r.reservationId)">Cancel</button>
+  <!-- Search/filter -->
+  <div class="search-card">
+    <input [(ngModel)]="searchTerm" placeholder="Search by User ID or Email" />
+    <button (click)="search()">Search</button>
+    <button (click)="loadAll()">Reset</button>
+  </div>
+
+  <!-- Loading / Error -->
+  <div *ngIf="loading" class="loading">Loading reservations...</div>
+  <div *ngIf="error" class="error">{{ error }}</div>
+
+  <!-- Reservation cards -->
+  <div class="reservation-grid">
+    <div class="reservation-card" *ngFor="let r of reservations">
+      <div class="room-name">{{ r.roomName || '—' }}</div>
+      <div class="meta"><strong>ID:</strong> {{ r.reservationId }}</div>
+      <div class="meta"><strong>User:</strong> {{ r.userId }}</div>
+      <div class="meta"><strong>Date:</strong> {{ r.date }}</div>
+      <div class="meta"><strong>Time:</strong> {{ r.startTime }} – {{ r.endTime }}</div>
+      <div class="status" [ngClass]="r.status">{{ r.status }}</div>
+      <button (click)="cancel(r.reservationId)">Cancel</button>
+    </div>
+  </div>
 </div>
-<div>
-  <input [(ngModel)]="searchTerm" placeholder="Search by User ID or Email">
-  <button (click)="search()">Search</button>
-  <button (click)="loadAll()">Reset</button>
-</div>
-
-<div *ngIf="loading">Loading...</div>
-<div *ngIf="error">{{ error }}</div>
-
-<ul>
-  <li *ngFor="let r of reservations">
-    {{ r.roomName }} — {{ r.date }} {{ r.startTime }}-{{ r.endTime }} (User: {{ r.userId }})
-    <button (click)="cancel(r.reservationId)">Cancel</button>
-  </li>
-</ul>

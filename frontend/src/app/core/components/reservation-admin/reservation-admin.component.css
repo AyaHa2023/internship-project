@@ -1,12 +1,165 @@
-/* src/app/core/components/reservation-admin/reservation-admin.component.css */
-.admin-reservations { padding: 1rem; }
-.reservation-list { list-style:none; padding:0; }
-.reservation-list li {
-  display:flex;
-  justify-content:space-between;
-  align-items:center;
-  padding:0.6rem 0;
-  border-bottom:1px solid #eee;
+/* Page container */
+.admin-reservations {
+  padding: 2rem;
+  min-height: 100vh;
+  background: linear-gradient(135deg, #f3e9f7, #9871b9);
+  display: flex;
+  flex-direction: column;
+  gap: 2rem;
 }
-.error { color: #b00020; }
-button { padding:6px 10px; background:#c82333; color:#fff; border:none; border-radius:4px; cursor:pointer; }
+
+/* Search/filter card */
+.search-card {
+  background: rgba(255, 255, 255, 0.85);
+  padding: 1rem 1.5rem;
+  border-radius: 16px;
+  box-shadow: 0 4px 14px rgba(0,0,0,0.1);
+  display: flex;
+  gap: 12px;
+  align-items: center;
+  max-width: 600px;
+  margin: 0 auto;
+}
+
+.search-card input {
+  flex: 1;
+  padding: 10px 14px;
+  border: 2px solid #d1b3e0;
+  border-radius: 10px;
+  font-size: 1rem;
+  outline: none;
+  transition: all 0.3s ease;
+}
+
+.search-card input:focus {
+  border-color: #6a1b9a;
+  box-shadow: 0 0 8px rgba(106, 27, 154, 0.4);
+}
+
+/* Buttons */
+.search-card button {
+  padding: 10px 16px;
+  border: none;
+  border-radius: 20px;
+  cursor: pointer;
+  font-weight: 600;
+  transition: all 0.3s ease;
+  color: white;
+}
+
+.search-card button:first-of-type {
+  background-color: #1976d2;
+}
+
+.search-card button:first-of-type:hover {
+  background-color: #1565c0;
+  transform: translateY(-2px);
+}
+
+.search-card button:last-of-type {
+  background-color: #6a1b9a;
+}
+
+.search-card button:last-of-type:hover {
+  background-color: #5a3363;
+  transform: translateY(-2px);
+}
+
+/* Reservations grid */
+.reservation-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+  gap: 1.5rem;
+}
+
+/* Individual reservation card */
+.reservation-card {
+  background: white;
+  border-radius: 16px;
+  padding: 1.2rem 1.5rem;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.12);
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+  display: flex;
+  flex-direction: column;
+  gap: 0.8rem;
+  animation: fadeInUp 0.6s ease;
+}
+
+.reservation-card:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 6px 16px rgba(0,0,0,0.18);
+}
+
+/* Title (room) */
+.reservation-card .room-name {
+  font-size: 1.2rem;
+  font-weight: 700;
+  color: #6a1b9a;
+}
+
+/* Meta info */
+.reservation-card .meta {
+  font-size: 0.95rem;
+  color: #555;
+}
+
+.reservation-card .status {
+  font-weight: 700;
+  padding: 4px 10px;
+  border-radius: 10px;
+  font-size: 0.85rem;
+  display: inline-block;
+}
+
+.status.BOOKED {
+  background-color: #c8e6c9;
+  color: #256029;
+}
+
+.status.CANCELED {
+  background-color: #ffcdd2;
+  color: #c62828;
+}
+
+/* Cancel button */
+.reservation-card button {
+  align-self: flex-end;
+  background-color: #c82333;
+  color: white;
+  border: none;
+  border-radius: 20px;
+  padding: 8px 14px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.reservation-card button:hover {
+  background-color: #a71d2a;
+  transform: scale(1.05);
+}
+
+/* Error and loading */
+.error {
+  color: #b00020;
+  text-align: center;
+  font-weight: 600;
+}
+
+.loading {
+  text-align: center;
+  font-weight: 600;
+  color: #6a1b9a;
+}
+
+/* Animations */
+@keyframes fadeInUp {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
