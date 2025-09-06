@@ -1,23 +1,25 @@
-<div>
-  <h2>Make a Reservation</h2>
+<div class="reservation-page">
+  <div class="reservation-card">
+    <h2 class="page-title">Make a Reservation</h2>
 
-  <form (ngSubmit)="submit()" #resForm="ngForm">
-    <label>Room</label>
-    <select [(ngModel)]="model.roomId" name="roomId" required>
-      <option *ngFor="let r of rooms" [value]="r.id">{{ r.roomName }}</option>
-    </select>
+    <form (ngSubmit)="submit()" #resForm="ngForm">
+      <label>Room</label>
+      <select [(ngModel)]="model.roomId" name="roomId" required>
+        <option *ngFor="let r of rooms" [value]="r.id">{{ r.roomName }}</option>
+      </select>
 
-    <label>Date</label>
-    <input type="date" [(ngModel)]="model.date" name="date" required />
+      <label>Date</label>
+      <input type="date" [(ngModel)]="model.date" name="date" required />
 
-    <label>Start time</label>
-    <input type="time" [(ngModel)]="model.startTime" name="startTime" required />
+      <label>Start Time</label>
+      <input type="time" [(ngModel)]="model.startTime" name="startTime" required />
 
-    <label>End time</label>
-    <input type="time" [(ngModel)]="model.endTime" name="endTime" required />
+      <label>End Time</label>
+      <input type="time" [(ngModel)]="model.endTime" name="endTime" required />
 
-    <button type="submit">Reserve</button>
-  </form>
+      <button type="submit">Reserve</button>
+    </form>
 
-  <div *ngIf="error" class="error">{{ error }}</div>
+    <div *ngIf="error" class="error">{{ error }}</div>
+  </div>
 </div>

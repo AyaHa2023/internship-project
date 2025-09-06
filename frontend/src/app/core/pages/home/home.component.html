@@ -1,6 +1,12 @@
-<div class="home-buttons">
-  <button routerLink="/reservations/create">Make reservation</button>
-  <button routerLink="/reservations">See my reservations</button>
-  <button *ngIf="auth.hasRole('ROLE_ADMIN')" routerLink="/admin/activity">See activity</button>
-  <button *ngIf="auth.hasRole('ROLE_ADMIN')" routerLink="/rooms">Rooms</button>
+<div class="home-container">
+  <div class="button-grid">
+    <button routerLink="/reservations/create">Make Reservation</button>
+    <button routerLink="/reservations">See My Reservations</button>
+    <button *ngIf="auth.hasRole('ROLE_ADMIN')" class="admin-btn" routerLink="/admin/activity">
+      See Activity
+    </button>
+    <button *ngIf="auth.hasRole('ROLE_ADMIN')" class="admin-btn" routerLink="/rooms">
+      Rooms
+    </button>
+  </div>
 </div>

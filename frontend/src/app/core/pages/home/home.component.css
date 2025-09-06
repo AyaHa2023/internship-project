@@ -1,4 +1,65 @@
-/* src/app/core/pages/home/home.component.css */
-.home-container { padding: 1.5rem; }
-.button-grid { display:flex; flex-direction:column; gap: 12px; max-width:320px; }
-button { padding:10px 14px; background:#1976d2; color:white; border:none; border-radius:6px; cursor:pointer; }
+/* Full-page container */
+.home-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: calc(100vh - 64px); /* Full screen minus navbar height */
+  background: linear-gradient(135deg, #6f4279, #d1b3e0);
+  padding: 2rem;
+  text-align: center;
+}
+
+/* Centered button grid */
+.button-grid {
+  display: flex;
+  flex-direction: column;
+  gap: 18px;
+  width: 100%;
+  max-width: 340px;
+  animation: fadeInUp 0.8s ease-in-out;
+}
+
+/* General button style */
+.button-grid button {
+  padding: 14px 20px;
+  border: none;
+  border-radius: 30px;
+  font-size: 1.1rem;
+  font-weight: 600;
+  cursor: pointer;
+  color: #fff;
+  background-color: #6f4279;
+  transition: all 0.3s ease;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.15);
+}
+
+/* Hover effect */
+.button-grid button:hover {
+  background-color: #5a3363;
+  transform: translateY(-3px) scale(1.02);
+  box-shadow: 0 6px 14px rgba(0, 0, 0, 0.2);
+}
+
+/* Admin-only buttons with a lighter variant */
+.button-grid button.admin-btn {
+  background-color: #e6d6f0;
+  color: #6a1b9a;
+  font-weight: 700;
+}
+
+.button-grid button.admin-btn:hover {
+  background-color: #d1b3e0;
+  transform: translateY(-3px) scale(1.02);
+}
+
+/* Entrance animation */
+@keyframes fadeInUp {
+  from {
+    opacity: 0;
+    transform: translateY(40px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
